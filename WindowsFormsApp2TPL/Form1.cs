@@ -57,34 +57,7 @@ namespace WindowsFormsApp2TPL
             textBox1.Text = html;
         }
 
-        private async void MyTPL_Click(object sender, EventArgs e)
-        {
-            string name = await GetAuthorNameAsync3();
-            textBox1.Text = name;
-        }
 
-        Task<string> GetAuthorNameAsync()
-        {
-            return Task.Run(()=>
-            {
-                Thread.Sleep(3000);
-                return "dalong";
-            });
-        }
-
-        async Task<string> GetAuthorNameAsync3()
-        {
-            await Task.Delay(3000);
-            return await Task.FromResult("dalong");
-        }
-
-        async Task<string> GetAuthorNameAsync2()
-        {
-            HttpClient httpClient = new HttpClient();
-            await httpClient.GetStringAsync("https://github.com/");
-            return "dalong";
-           
-        }
 
         private async void Get_Click(object sender, EventArgs e)
         {
@@ -113,7 +86,7 @@ namespace WindowsFormsApp2TPL
             MultipartFormDataContent content = new MultipartFormDataContent();
             content.Headers.Add("UserName", "admin");
             content.Headers.Add("Password", "123");
-            using (Stream stream = File.OpenRead(@"C:\Users\EYINLXI\Desktop\dalong.png"))
+            using (Stream stream = File.OpenRead(@"C:\Users\29552\Desktop\temp\学习.txt"))
             {
                 content.Add(new StreamContent(stream), "file", "dalong.png");
                 var respMsg = await client.PostAsync("http://localhost:29386/Home/Upload/", content);
@@ -141,9 +114,43 @@ namespace WindowsFormsApp2TPL
 
         }
 
+        private async void MyTPL_Click(object sender, EventArgs e)
+        {
+            string name = await GetAuthorNameAsync3();
+            textBox1.Text = name;
+        }
+
+        Task<string> GetAuthorNameAsync()
+        {
+            return Task.Run(() =>
+            {
+                Thread.Sleep(3000);
+                return "dalong";
+            });
+        }
+
+        async Task<string> GetAuthorNameAsync3()
+        {
+            await Task.Delay(3000);
+            return await Task.FromResult("dalong");
+        }
+
+        async Task<string> GetAuthorNameAsync2()
+        {
+            HttpClient httpClient = new HttpClient();
+            await httpClient.GetStringAsync("https://github.com/");
+            return "dalong";
+
+        }
+
         private async void MyTPL2_Click(object sender, EventArgs e)
         {
             await ShowAuthorNameAsync2();
+        }
+
+        private async void btnTpl3_Click(object sender, EventArgs e)
+        {
+            await ShowAuthorNameAsync();
         }
 
         Task ShowAuthorNameAsync()
@@ -158,7 +165,7 @@ namespace WindowsFormsApp2TPL
         async Task ShowAuthorNameAsync2()
         {
             await Task.Delay(3000);
-                MessageBox.Show("dalong");
+            MessageBox.Show("dalong");
         }
 
         private void waitAll_Click(object sender, EventArgs e)
@@ -200,5 +207,28 @@ namespace WindowsFormsApp2TPL
 
             }
         }
+
+        private async void btnTaskRun_Click(object sender, EventArgs e)
+        {
+            await TestTask();
+        }
+
+        Task TestTask()
+        {
+            return Task.Run(()=> { MessageBox.Show("test task"); });
+        }
+
+        private async void btnTaskRunGeneric_Click(object sender, EventArgs e)
+        {
+            var msg=await TestTaskGeneric();
+            MessageBox.Show(msg);
+        }
+
+        Task<string> TestTaskGeneric()
+        {
+            return Task.Run<string>(() => "test task generic");
+        }
+
+   
     }
 }
