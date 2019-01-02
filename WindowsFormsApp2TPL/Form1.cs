@@ -33,6 +33,22 @@ namespace WindowsFormsApp2TPL
           
         }
 
+         void  TestWait(object sender, EventArgs e)
+        {
+
+
+            WebClient webClient = new WebClient();
+            
+            
+            //这么写会卡死ui
+            //string html =  webClient.DownloadStringTaskAsync("https://github.com/").Result;
+            var html = webClient.DownloadStringTaskAsync("https://github.com/").GetAwaiter().GetResult();
+            
+
+            textBox1.Text = html;
+        }
+
+
         private void Sync_Click(object sender, EventArgs e)
         {
             WebClient webClient = new WebClient();
